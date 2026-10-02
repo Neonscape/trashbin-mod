@@ -11,6 +11,8 @@
 | Forge 1.19.2 / 43.5.2 | 编译、重混淆打包成功；12 个 GameTests 全部通过，启用 both 测试流体 |
 | Forge 1.20.1 / 47.4.23 | 编译、重混淆打包成功；12 个 GameTests 全部通过，启用 sophisticated 测试流体 |
 | 发行包检查 | 三个 jar 的元数据、语言键、16 个方块状态、8 张纹理、配方及战利品、客户端及服务器类完整；不包含测试类、测试结构或原版美术/音效文件 |
+| MIT 发行检查 | 三个 jar 的 `mods.toml` 标记 MIT，并包含与仓库相同的 LICENSE 文本；重新构建成功 |
+| CI 与发布脚本 | actionlint 1.7.12 和 Bash 语法检查通过；7 项发布测试通过，覆盖新建、草稿恢复、公开版本重跑、上传失败、校验失败和缺少凭据 |
 | 美术检查 | 已离线渲染检查关闭/开启、启用/停用模型和 GUI 排版，预览位于 `docs/preview.png` |
 
 核心测试覆盖物品及液体余数跨次累计、持久化、非整除比例、缓存溢出、配置缩容、整数溢出、原生液态经验单位、模拟流体输出不改变缓存、1 mB 小额输出、整点提取保留小数、FIFO 时序与全部红石状态。
@@ -38,7 +40,9 @@
 
 美术预览是模型和 GUI UV 的离线校样；未启动图形客户端进行操作测试，也未穷举第三方资源包。NeoForge 尚未实现或验证。
 
-`.github/workflows/build.yml` 提供三个版本的构建、核心测试和三种流体环境下的服务器测试；此仓库未推送到远端，云端 CI 尚未执行。
+`.github/workflows/build.yml` 在分支推送和 Pull Request 上执行三个版本的构建、核心测试和三种流体环境下的服务器测试，汇总 jar 并检查资源和 MIT 许可证。tag 推送检查通过后发布 GitHub Release。发布异常与重跑行为在本地通过模拟 GitHub CLI 验证，不会创建真实 Release。
+
+本文记录本地验证结果；云端 CI 结果以 [GitHub Actions](https://github.com/Neonscape/trashbin-mod/actions) 的对应运行记录为准。
 
 ## 复现
 

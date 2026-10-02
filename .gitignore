@@ -9,3 +9,4 @@
 out/
 dist/
 .vscode/
+__pycache__/

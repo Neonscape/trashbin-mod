@@ -91,4 +91,21 @@ Linux/macOS 使用 Java 17 和 `./gradlew release`，单版本通过 `-Pmc=1.20.
 
 NeoForge 尚未发布支持版本。无游戏依赖的经验/FIFO/红石规则置于 `core/`，版本差异集中在 `VersionPlatform` 与两个 GUI 适配器中，后续可增设加载器实现。
 
+## GitHub CI 与发布
+
+每次向任意分支推送提交、创建或更新 Pull Request，GitHub Actions 自动构建三个版本，运行核心测试和三种流体环境下的服务器测试。全部通过后检查发行包并生成 SHA-256 校验和，可在该次运行的 `trashbin-release` artifact 中下载三个 jar 和 `SHA256SUMS.txt`。
+
+推送任意 tag 会执行相同检查，成功后自动创建对应的 GitHub Release，上传全部三个 jar 与校验和，并生成发布说明。发布只使用 GitHub 自带的 `GITHUB_TOKEN`，无需额外 secret。若上传失败，Release 保持草稿；重跑可恢复草稿，已经公开的 Release 不会被覆盖。
+
+发布新版本时，先修改 `gradle.properties` 中的 `mod_version` 并提交、推送，再为该提交添加和推送对应 tag，例如：
+
+```sh
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+tag 本身不会更改 jar 内的版本号。工作流和发布逻辑分别见 [.github/workflows/build.yml](.github/workflows/build.yml) 与 [scripts/publish_release.sh](scripts/publish_release.sh)。
+
+本项目代码和原创资产采用 [MIT 协议](LICENSE)，发行 jar 中同时包含许可证文本。
+
 Forge 开发环境参考：[Forge 官方说明](https://docs.minecraftforge.net/en/1.20.1/gettingstarted/)。可选输出单位参考：[CEI 的兼容配方](https://github.com/DragonsPlusMinecraft/CreateEnchantmentIndustry/blob/1.20.1/0.5.1-dev/src/main/resources/data/create_enchantment_industry/recipes/compat/sophisticatedcore/mixing/experience_conversion.json) 和 [Sophisticated Core XpHelper](https://github.com/P3pp3rF1y/SophisticatedCore/blob/1.20.x/src/main/java/net/p3pp3rf1y/sophisticatedcore/util/XpHelper.java)。未复制第三方 Mod 的源码或美术资产。

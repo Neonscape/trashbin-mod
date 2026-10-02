@@ -23,6 +23,8 @@ for mc, pack_format in FORMATS.items():
             assert f"io/github/whiteviera/trashbin/{name}.class" in names, f"{mc}: missing {name}"
         metadata = jar.read("META-INF/mods.toml").decode()
         assert "${" not in metadata and f'versionRange="[{mc}]"' in metadata
+        assert 'license="MIT"' in metadata, f"{mc}: incorrect license metadata"
+        assert jar.read("LICENSE") == (ROOT / "LICENSE").read_bytes(), f"{mc}: missing or outdated MIT notice"
         assert json.loads(jar.read("pack.mcmeta"))["pack"]["pack_format"] == pack_format
         states = json.loads(jar.read("assets/trashbin/blockstates/trash_bin.json"))["variants"]
         assert len(states) == 16, f"{mc}: missing block states"
@@ -46,5 +48,5 @@ for mc, pack_format in FORMATS.items():
     checksum = hashlib.sha256(path.read_bytes()).hexdigest()
     checksums.append(f"{checksum}  {path.name}")
     print(f"OK: {path.name} ({path.stat().st_size:,} bytes)")
-(ROOT / "dist/SHA256SUMS.txt").write_text("\n".join(checksums) + "\n", encoding="utf-8")
+(ROOT / "dist/SHA256SUMS.txt").write_text("\n".join(checksums) + "\n", encoding="utf-8", newline="\n")
 print("Wrote dist/SHA256SUMS.txt")

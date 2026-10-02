@@ -54,6 +54,7 @@ tasks.named('processResources', ProcessResources).configure {
 
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 tasks.named('jar', Jar).configure {
+    from(rootProject.file('LICENSE'))
     exclude 'io/github/whiteviera/trashbin/test/**', 'data/trashbin/structures/empty.nbt'
     preserveFileTimestamps = false
     reproducibleFileOrder = true

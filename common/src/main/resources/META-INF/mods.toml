@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[${loader_version},)"
-license="All Rights Reserved"
+license="MIT"
 
 [[mods]]
 modId="trashbin"
