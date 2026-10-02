@@ -10,9 +10,9 @@ Forge 垃圾桶 Mod，提供 27 格手动储物、FIFO 自动化垃圾处理、�
 
 | Minecraft | 开发与测试使用的 Forge | 文件 |
 | --- | --- | --- |
-| 1.18.2 | 40.3.12 | `trashbin-forge-1.18.2-1.0.0.jar` |
-| 1.19.2 | 43.5.2 | `trashbin-forge-1.19.2-1.0.0.jar` |
-| 1.20.1 | 47.4.23 | `trashbin-forge-1.20.1-1.0.0.jar` |
+| 1.18.2 | 40.3.12 | `trashbin-forge-1.18.2-0.1.0.jar` |
+| 1.19.2 | 43.5.2 | `trashbin-forge-1.19.2-0.1.0.jar` |
+| 1.20.1 | 47.4.23 | `trashbin-forge-1.20.1-0.1.0.jar` |
 
 需要 Java 17。方块 ID 为 `trashbin:trash_bin`。创造物品栏有独立的「垃圾桶」分类；生存合成材料为 1 个木桶和 4 个铁锭。
 
@@ -100,8 +100,8 @@ NeoForge 尚未发布支持版本。无游戏依赖的经验/FIFO/红石规则�
 发布新版本时，先修改 `gradle.properties` 中的 `mod_version` 并提交、推送，再为该提交添加和推送对应 tag，例如：
 
 ```sh
-git tag v1.0.1
-git push origin v1.0.1
+git tag v0.1.1
+git push origin v0.1.1
 ```
 
 tag 本身不会更改 jar 内的版本号。工作流和发布逻辑分别见 [.github/workflows/build.yml](.github/workflows/build.yml) 与 [scripts/publish_release.sh](scripts/publish_release.sh)。
