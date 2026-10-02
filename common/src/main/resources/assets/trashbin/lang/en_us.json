@@ -1,0 +1,20 @@
+{
+  "block.trashbin.trash_bin": "Trash Bin",
+  "itemGroup.trashbin": "Trash Bin",
+  "gui.trashbin.clear": "Recycle",
+  "gui.trashbin.extract": "Claim XP",
+  "gui.trashbin.redstone": "Redstone",
+  "gui.trashbin.experience": "XP %s / %s",
+  "gui.trashbin.enabled": "Enabled",
+  "gui.trashbin.disabled": "Disabled",
+  "gui.trashbin.fluid.0": "None (install CEI or Sophisticated Core)",
+  "gui.trashbin.fluid.1": "CEI liquid experience (1 mB / XP)",
+  "gui.trashbin.fluid.2": "Sophisticated liquid experience (20 mB / XP)",
+  "mode.trashbin.none": "None",
+  "mode.trashbin.powered": "Enabled when powered",
+  "mode.trashbin.unpowered": "Enabled when unpowered",
+  "tooltip.trashbin.clear": "Permanently recycle all 27 slots into XP. Any excess XP appears at your feet. Partial conversion progress is kept.",
+  "tooltip.trashbin.extract": "Release the cached whole XP points as orbs at your feet. Fractional XP remains stored.",
+  "tooltip.trashbin.redstone": "Redstone behavior: %s. Click to cycle. This controls all automatic item and fluid input/output; player access remains available.",
+  "tooltip.trashbin.status": "Automation: %s\nLiquid XP output: %s\nOccupied slots: %s / 27\nFractional cached XP: 0.%s\nAutomatic XP overflow is discarded."
+}

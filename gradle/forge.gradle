@@ -1,0 +1,62 @@
+apply plugin: 'java'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'idea'
+
+def targets = [
+    '1.18.2': [forge: '40.3.12', loader: '40', pack: 8],
+    '1.19.2': [forge: '43.5.2', loader: '43', pack: 9],
+    '1.20.1': [forge: '47.4.23', loader: '47', pack: 15]
+]
+def mc = project.name.substring('forge-'.length())
+def target = targets[mc]
+base.archivesName = "trashbin-forge-${mc}"
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+sourceSets.main {
+    java.srcDirs = [rootProject.file('common/src/main/java'),
+                    rootProject.file('core/src/main/java'), file('src/main/java')]
+    if (mc != '1.20.1') java.srcDir rootProject.file('legacy-client/src/main/java')
+    resources.srcDirs = [rootProject.file('common/src/main/resources'), file('src/main/resources')]
+    if (providers.gradleProperty('gameTests').orNull == 'true') {
+        java.srcDir rootProject.file('tests/gametest/java')
+        resources.srcDir rootProject.file('tests/gametest/resources')
+    }
+}
+
+minecraft {
+    mappings channel: 'official', version: mc
+    copyIdeResources = true
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'info'
+            property 'forge.enabledGameTestNamespaces', 'trashbin'
+            mods { trashbin { source sourceSets.main } }
+        }
+        client {}
+        server { args '--nogui' }
+        gameTestServer {
+            def fixture = providers.gradleProperty('compat').orElse('none').get()
+            workingDirectory project.file("run/gametest-${fixture}")
+            property 'trashbin.test.compat', fixture
+        }
+    }
+}
+
+dependencies { minecraft "net.minecraftforge:forge:${mc}-${target.forge}" }
+
+tasks.named('processResources', ProcessResources).configure {
+    def values = [mod_version: project.version, minecraft_version: mc,
+                  loader_version: target.loader, pack_format: target.pack]
+    inputs.properties values
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) { expand values }
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('jar', Jar).configure {
+    exclude 'io/github/whiteviera/trashbin/test/**', 'data/trashbin/structures/empty.nbt'
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    manifest { attributes('Implementation-Version': project.version) }
+    finalizedBy 'reobfJar'
+}

@@ -1,0 +1,20 @@
+{
+  "block.trashbin.trash_bin": "垃圾桶",
+  "itemGroup.trashbin": "垃圾桶",
+  "gui.trashbin.clear": "全部清空",
+  "gui.trashbin.extract": "提取经验",
+  "gui.trashbin.redstone": "红石信号行为",
+  "gui.trashbin.experience": "经验 %s / %s",
+  "gui.trashbin.enabled": "启用",
+  "gui.trashbin.disabled": "停用",
+  "gui.trashbin.fluid.0": "无（需安装 CEI 或精妙核心）",
+  "gui.trashbin.fluid.1": "CEI 液态经验（1 mB / 经验点）",
+  "gui.trashbin.fluid.2": "精妙核心液态经验（20 mB / 经验点）",
+  "mode.trashbin.none": "无",
+  "mode.trashbin.powered": "充能时启用",
+  "mode.trashbin.unpowered": "未充能时启用",
+  "tooltip.trashbin.clear": "永久销毁全部 27 格物品并转化为经验。溢出经验在脚下生成经验球，转换余数保留并跨次累计。",
+  "tooltip.trashbin.extract": "在脚下释放缓存中的整点经验，小数经验和转换余数继续保留。",
+  "tooltip.trashbin.redstone": "红石信号行为：%s。点击切换，控制全部自动化物品及液体输入输出，手动操作始终可用。",
+  "tooltip.trashbin.status": "自动化：%s\n液态经验输出：%s\n占用槽位：%s / 27\n缓存中的小数经验：0.%s\n自动化产生的溢出经验直接丢弃。"
+}

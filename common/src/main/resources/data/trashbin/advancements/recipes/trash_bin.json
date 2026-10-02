@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_barrel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:barrel"
+            ]
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "trashbin:trash_bin"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_barrel",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "trashbin:trash_bin"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "variants": {
+    "active=true,facing=north,open=true": {
+      "model": "trashbin:block/trash_bin_active_open",
+      "y": 0,
+      "uvlock": false
+    },
+    "active=true,facing=east,open=true": {
+      "model": "trashbin:block/trash_bin_active_open",
+      "y": 90,
+      "uvlock": false
+    },
+    "active=true,facing=south,open=true": {
+      "model": "trashbin:block/trash_bin_active_open",
+      "y": 180,
+      "uvlock": false
+    },
+    "active=true,facing=west,open=true": {
+      "model": "trashbin:block/trash_bin_active_open",
+      "y": 270,
+      "uvlock": false
+    },
+    "active=true,facing=north,open=false": {
+      "model": "trashbin:block/trash_bin_active_closed",
+      "y": 0,
+      "uvlock": false
+    },
+    "active=true,facing=east,open=false": {
+      "model": "trashbin:block/trash_bin_active_closed",
+      "y": 90,
+      "uvlock": false
+    },
+    "active=true,facing=south,open=false": {
+      "model": "trashbin:block/trash_bin_active_closed",
+      "y": 180,
+      "uvlock": false
+    },
+    "active=true,facing=west,open=false": {
+      "model": "trashbin:block/trash_bin_active_closed",
+      "y": 270,
+      "uvlock": false
+    },
+    "active=false,facing=north,open=true": {
+      "model": "trashbin:block/trash_bin_inactive_open",
+      "y": 0,
+      "uvlock": false
+    },
+    "active=false,facing=east,open=true": {
+      "model": "trashbin:block/trash_bin_inactive_open",
+      "y": 90,
+      "uvlock": false
+    },
+    "active=false,facing=south,open=true": {
+      "model": "trashbin:block/trash_bin_inactive_open",
+      "y": 180,
+      "uvlock": false
+    },
+    "active=false,facing=west,open=true": {
+      "model": "trashbin:block/trash_bin_inactive_open",
+      "y": 270,
+      "uvlock": false
+    },
+    "active=false,facing=north,open=false": {
+      "model": "trashbin:block/trash_bin_inactive_closed",
+      "y": 0,
+      "uvlock": false
+    },
+    "active=false,facing=east,open=false": {
+      "model": "trashbin:block/trash_bin_inactive_closed",
+      "y": 90,
+      "uvlock": false
+    },
+    "active=false,facing=south,open=false": {
+      "model": "trashbin:block/trash_bin_inactive_closed",
+      "y": 180,
+      "uvlock": false
+    },
+    "active=false,facing=west,open=false": {
+      "model": "trashbin:block/trash_bin_inactive_closed",
+      "y": 270,
+      "uvlock": false
+    }
+  }
+}

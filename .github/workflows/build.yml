@@ -1,0 +1,31 @@
+name: Build and server tests
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        minecraft: ['1.18.2', '1.19.2', '1.20.1']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew
+      - name: Build distributable and run core tests
+        run: ./gradlew -Pmc=${{ matrix.minecraft }} release --console=plain
+      - name: Run dedicated server integration tests
+        run: ./gradlew -Pmc=${{ matrix.minecraft }} -PgameTests=true :forge-${{ matrix.minecraft }}:runGameTestServer --console=plain
+      - name: Verify Sophisticated liquid XP fractional drains
+        run: ./gradlew -Pmc=${{ matrix.minecraft }} -PgameTests=true -Pcompat=sophisticated :forge-${{ matrix.minecraft }}:runGameTestServer --console=plain
+      - name: Verify CEI priority when both fluid IDs exist
+        run: ./gradlew -Pmc=${{ matrix.minecraft }} -PgameTests=true -Pcompat=both :forge-${{ matrix.minecraft }}:runGameTestServer --console=plain
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trashbin-forge-${{ matrix.minecraft }}
+          path: dist/*.jar
