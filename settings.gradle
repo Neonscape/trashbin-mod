@@ -2,16 +2,18 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://maven.neoforged.net/releases' }
     }
 }
 rootProject.name = 'trashbin'
 include 'core'
-def supported = ['1.18.2', '1.19.2', '1.20.1']
+def supported = ['1.18.2', '1.19.2', '1.20.1', '1.21.1']
 def selected = providers.gradleProperty('mc').orNull
 if (selected != null && !supported.contains(selected)) {
     throw new GradleException("Unsupported Minecraft version: ${selected}")
 }
 (selected == null ? supported : [selected]).each { mc ->
-    include "forge-${mc}"
-    project(":forge-${mc}").projectDir = file("versions/forge-${mc}")
+    def loader = mc == '1.21.1' ? 'neoforge' : 'forge'
+    include "${loader}-${mc}"
+    project(":${loader}-${mc}").projectDir = file("versions/${loader}-${mc}")
 }

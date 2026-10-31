@@ -40,8 +40,8 @@ class PublishReleaseTests(unittest.TestCase):
         dist = self.root / "dist"
         dist.mkdir()
         checksums = []
-        for mc in ("1.18.2", "1.19.2", "1.20.1"):
-            jar = dist / f"trashbin-forge-{mc}-1.0.0.jar"
+        for loader, mc in (("forge", "1.18.2"), ("forge", "1.19.2"), ("forge", "1.20.1"), ("neoforge", "1.21.1")):
+            jar = dist / f"trashbin-{loader}-{mc}-1.0.0.jar"
             jar.write_bytes(f"test jar for {mc}".encode())
             checksums.append(f"{hashlib.sha256(jar.read_bytes()).hexdigest()}  {jar.name}")
         (dist / "SHA256SUMS.txt").write_text("\n".join(checksums) + "\n", encoding="utf-8", newline="\n")
@@ -68,7 +68,7 @@ class PublishReleaseTests(unittest.TestCase):
         self.assertEqual([call[1] for call in calls], ["view", "create", "edit"])
         self.assertIn("--verify-tag", calls[1])
         self.assertIn("--draft", calls[1])
-        self.assertEqual(sum(arg.endswith(".jar") for arg in calls[1]), 3)
+        self.assertEqual(sum(arg.endswith(".jar") for arg in calls[1]), 4)
         self.assertIn("dist/SHA256SUMS.txt", calls[1])
         self.assertIn("--draft=false", calls[2])
 

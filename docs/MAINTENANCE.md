@@ -9,11 +9,13 @@
 | `common/src/main/java` | Forge 注册、方块、方块实体、标准能力、服务端菜单和公共 UI 内容 |
 | `legacy-client/src/main/java` | 1.18.2/1.19.2 的 PoseStack GUI |
 | `versions/forge-*/src/main/java` | 注册表、创造分类、文本、方块属性、菜单打开适配；1.20.1 GuiGraphics GUI |
-| `common/src/main/resources` | 三个版本共用的模型、原创纹理、翻译、配方、战利品与工具标签 |
+| `versions/neoforge-1.21.1/src/main/java` | NeoForge 原生注册、能力、组件 NBT、菜单与 GUI；复用 core 与 ScreenContent |
+| `common/src/main/resources` | 四个版本共用的模型、原创纹理、翻译、配方、战利品与工具标签 |
 | `tests/gametest` | 显式启用的真实服务器集成测试及最小结构，不进入发行 jar |
+| `tests/neoforge` | NeoForge 服务器回归测试，额外覆盖物品组件与 1.21.1 数据路径，不进入发行 jar |
 | `scripts` | 本地构建、可重建资产、预览与发行检查 |
 
-ForgeGradle 和 Gradle Wrapper 均固定版本；游戏使用 Mojang 官方映射。Java 编译目标为 17。发行前执行三个版本构建和 GameTests，检查 `dist/` jar，禁止将开发映射 jar 当作发行 jar；Gradle `reobfJar` 已绑定到打包流程。
+ForgeGradle、ModDevGradle 和 Gradle Wrapper 均固定版本；游戏使用 Mojang 官方映射。Forge 编译目标为 Java 17；NeoForge 为 Java 21。发行前执行四个版本构建和 GameTests，检查 `dist/` jar。Forge 的 `reobfJar` 已绑定到打包流程；NeoForge 1.21.1 使用原生开发映射，不执行 Forge 的重混淆任务。
 
 ## 状态与存档
 
@@ -23,7 +25,7 @@ ForgeGradle 和 Gradle Wrapper 均固定版本；游戏使用 Mojang 官方映�
 
 | 字段 | 内容 |
 | --- | --- |
-| `Inventory` | Forge ItemStackHandler，固定 27 槽 |
+| `Inventory` | 对应加载器的 ItemStackHandler，固定 27 槽 |
 | `ArrivalOrder` | 每个槽位的单调到达序号；合并不更新 |
 | `ArrivalGameTime` | 每组首次放入的世界游戏时间 |
 | `ExperienceUnits` | 以 1/20 经验点为单位的缓存 |
@@ -47,6 +49,14 @@ GUI 访问普通 `ItemStackHandler`，自动化访问独立 `IItemHandler` 包�
 
 经验球按最多 32 个实体分组，经验总量精确且避免大容量提取生成数十万个实体。自动化溢出直接舍弃；方块移除只执行一次内容释放，不将内部数据写回物品。
 
-## 后续 NeoForge
+## NeoForge 1.21.1
 
-增加新的构建模块，复用 `core` 和普通数据资源；针对目标版本的注册、能力、菜单、NBT、资源路径和 GUI API 编写适配。现有 Forge 代码不能直接宣称兼容 NeoForge。NeoForge 能力系统变更需要独立处理，至少重复所有核心测试和真实服务器集成测试。
+`gradle/neoforge.gradle` 使用 ModDevGradle 2.0.148 / NeoForge 21.1.265；旧 Forge 构建脚本独立保留。经验精度、FIFO 时序与红石真值表只在 `core` 定义；Loader 相关代码使用独立适配，避免用文本替换生成 Java 源码。修改交互规则时，两套适配的服务器测试必须同时通过。
+
+能力由 `RegisterCapabilitiesEvent` 注册，返回稳定的物品/流体包装器，每次调用实时检查移除状态和红石。无需 LazyOptional；块被移除后的失效由 NeoForge 能力缓存处理，外部仍持有旧包装器时也不能继续操作。
+
+物品保存使用带 `HolderLookup.Provider` 的 ItemStackHandler 序列化，比较堆叠使用 `isSameItemSameComponents`，保留自定义名称、最大堆叠数量等组件。逻辑字段仍使用 `DataVersion=1`；跨 Minecraft 大版本的整存档迁移尚未验证，当前测试验证同版本保存/加载。
+
+资源构建时仅转换 `data/<命名空间>/` 下的类型目录：`recipe`、`loot_table`、`advancement` 和 `tags/block`，以及配方结果的 `id` 字段。嵌套资源 ID（如 `recipes/trash_bin`）保持原样；模型、材质和语言文件不复制维护。NeoForge 的 pack 元数据声明支持 34～48，涵盖 1.21.1 的资源包和数据包格式。
+
+新增目标时，同时更新 `settings.gradle`、对应加载器构建配置、Windows JDK 选择、CI 矩阵和 `scripts/verify_jars.py`，再运行发布脚本的四附件回归测试。新增 tag 由用户决定；普通代码推送只生成构建 artifact。

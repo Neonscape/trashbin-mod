@@ -1,0 +1,4 @@
+{
+  "exclude": [".tools", ".gradle", ".git", "**/build/**", "**/run/**", "dist", "__pycache__"],
+  "depth": 7
+}

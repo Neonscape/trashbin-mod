@@ -1,0 +1,71 @@
+apply plugin: 'java-library'
+apply plugin: 'net.neoforged.moddev'
+
+base.archivesName = 'trashbin-neoforge-1.21.1'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+sourceSets.main {
+    java.srcDirs = [rootProject.file('core/src/main/java'), file('src/main/java')]
+}
+// UI wording is shared; drawing and loader APIs stay in the version adapter.
+def sharedUi = tasks.register('prepareSharedUi', Sync) {
+    from(rootProject.file('common/src/main/java')) { include '**/client/ScreenContent.java' }
+    into layout.buildDirectory.dir('generated/sharedUi')
+}
+sourceSets.main.java.srcDir(sharedUi)
+
+def resourcesForNeo = tasks.register('prepareNeoResources', Sync) {
+    from(rootProject.file('common/src/main/resources')) {
+        exclude 'META-INF/mods.toml', 'pack.mcmeta'
+        eachFile {
+            def parts = path.split('/')
+            if (parts.length > 2 && parts[0] == 'data') {
+                parts[2] = ['loot_tables': 'loot_table', 'recipes': 'recipe', 'advancements': 'advancement'].get(parts[2], parts[2])
+                if (parts[2] == 'tags' && parts.length > 3 && parts[3] == 'blocks') parts[3] = 'block'
+                path = parts.join('/')
+            }
+            if (path == 'data/trashbin/recipe/trash_bin.json') {
+                filter { line -> line.replace('"item": "trashbin:trash_bin"', '"id": "trashbin:trash_bin"') }
+            }
+        }
+        includeEmptyDirs = false
+    }
+    into layout.buildDirectory.dir('generated/neoResources')
+}
+sourceSets.main.resources.srcDir(resourcesForNeo)
+if (providers.gradleProperty('gameTests').orNull == 'true') {
+    sourceSets.main.java.srcDir(rootProject.file('tests/neoforge/java'))
+    sourceSets.main.resources.srcDir(rootProject.file('tests/neoforge/resources'))
+}
+
+neoForge {
+    enable {
+        version = '21.1.265'
+        disableRecompilation = true
+    }
+    runs {
+        client { client() }
+        server { server(); programArgument '--nogui' }
+        gameTestServer {
+            type = 'gameTestServer'
+            def fixture = providers.gradleProperty('compat').orElse('none').get()
+            gameDirectory = project.file("run/gametest-${fixture}")
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'trashbin'
+            systemProperty 'trashbin.test.compat', fixture
+        }
+    }
+    mods { trashbin { sourceSet(sourceSets.main) } }
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    inputs.property 'mod_version', project.version
+    filesMatching('META-INF/neoforge.mods.toml') { expand mod_version: project.version }
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('jar', Jar).configure {
+    from(rootProject.file('LICENSE'))
+    exclude 'io/github/whiteviera/trashbin/test/**', 'data/trashbin/structure/empty.nbt'
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    manifest { attributes('Implementation-Version': project.version) }
+}

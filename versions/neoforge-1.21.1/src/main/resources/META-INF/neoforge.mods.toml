@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="trashbin"
+version="${mod_version}"
+displayName="Trash Bin"
+authors="whiteviera"
+description='''
+A compact, resource-pack-friendly trash bin with 27 slots, experience recycling,
+FIFO automation, fluid disposal and optional liquid experience output.
+'''
+
+[[dependencies.trashbin]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.265,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.trashbin]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+ordering="NONE"
+side="BOTH"
