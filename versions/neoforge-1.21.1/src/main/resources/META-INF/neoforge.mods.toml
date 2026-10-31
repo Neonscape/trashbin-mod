@@ -15,7 +15,7 @@ FIFO automation, fluid disposal and optional liquid experience output.
 [[dependencies.trashbin]]
 modId="neoforge"
 type="required"
-versionRange="[21.1.265,)"
+versionRange="[${neoforge_version},)"
 ordering="NONE"
 side="BOTH"
 

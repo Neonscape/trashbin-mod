@@ -49,6 +49,7 @@ for loader, mc, pack_format in TARGETS:
         assert not any(name.startswith("assets/minecraft/") for name in names)
         assert not any(name.endswith(".ogg") for name in names)
         if loader == "neoforge":
+            assert f'versionRange="[{properties["neoforge_version"]},)"' in metadata, f"{mc}: minimum NeoForge version differs from build baseline"
             assert json.loads(jar.read("pack.mcmeta"))["pack"]["supported_formats"] == [34, 48]
             assert "META-INF/mods.toml" not in names
             assert not any(b"net/minecraftforge/" in jar.read(name) for name in names if name.endswith(".class")), f"{mc}: Forge API reference in NeoForge jar"

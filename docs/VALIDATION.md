@@ -54,6 +54,12 @@
 - 在同一工程以 Java 21 启动 Gradle、显式选择 Java 17/21 toolchain，四个 `0.2.0` jar 统一构建成功；发行检查通过，确认版本号、Java 目标、MIT 许可证、现代数据路径、模型/语言/纹理完整，并且 NeoForge jar 不引用 Forge API、不包含测试代码。
 - 客户端 GUI 已编译，并核对 1.21.1 父类的背景绘制调用，避免重复调用背景/模糊。尚未进行图形客户端操作测试和完整第三方整合包联调。
 
+## NeoForge 最低版本下调验证（2026-11-01）
+
+构建与最低依赖基线下调至 NeoForge `21.1.249`，仍使用 Java 21 与 Minecraft 1.21.1。无可选流体、仅精妙核心流体、精妙核心与 CEI 流体同时存在，三个真实服务器环境各 16 项 GameTests 全部通过。
+
+构建版本和 `neoforge.mods.toml` 的最低版本统一来自 `gradle.properties` 的 `neoforge_version`，发行检查会拒绝两者不一致的 jar。原有 21.1.265 的测试记录保留在上一节。
+
 ## 复现
 
 ```powershell

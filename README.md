@@ -13,7 +13,7 @@ Forge / NeoForge 垃圾桶 Mod，提供 27 格手动储物、FIFO 自动化垃�
 | 1.18.2 | Forge 40.3.12 | `trashbin-forge-1.18.2-0.2.0.jar` |
 | 1.19.2 | Forge 43.5.2 | `trashbin-forge-1.19.2-0.2.0.jar` |
 | 1.20.1 | Forge 47.4.23 | `trashbin-forge-1.20.1-0.2.0.jar` |
-| 1.21.1 | NeoForge 21.1.265 | `trashbin-neoforge-1.21.1-0.2.0.jar` |
+| 1.21.1 | NeoForge 21.1.249 | `trashbin-neoforge-1.21.1-0.2.0.jar` |
 
 Forge 三个版本需要 Java 17；NeoForge 1.21.1 需要 Java 21。方块 ID 为 `trashbin:trash_bin`。创造物品栏有独立的「垃圾桶」分类；生存合成材料为 1 个木桶和 4 个铁锭。
 

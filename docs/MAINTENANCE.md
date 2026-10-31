@@ -51,7 +51,7 @@ GUI 访问普通 `ItemStackHandler`，自动化访问独立 `IItemHandler` 包�
 
 ## NeoForge 1.21.1
 
-`gradle/neoforge.gradle` 使用 ModDevGradle 2.0.148 / NeoForge 21.1.265；旧 Forge 构建脚本独立保留。经验精度、FIFO 时序与红石真值表只在 `core` 定义；Loader 相关代码使用独立适配，避免用文本替换生成 Java 源码。修改交互规则时，两套适配的服务器测试必须同时通过。
+`gradle/neoforge.gradle` 使用 ModDevGradle 2.0.148 / NeoForge 21.1.249；旧 Forge 构建脚本独立保留。NeoForge 构建基线和 jar 的最低版本声明统一读取 `gradle.properties` 中的 `neoforge_version`，发行检查会验证两者一致。经验精度、FIFO 时序与红石真值表只在 `core` 定义；Loader 相关代码使用独立适配，避免用文本替换生成 Java 源码。修改交互规则时，两套适配的服务器测试必须同时通过。
 
 能力由 `RegisterCapabilitiesEvent` 注册，返回稳定的物品/流体包装器，每次调用实时检查移除状态和红石。无需 LazyOptional；块被移除后的失效由 NeoForge 能力缓存处理，外部仍持有旧包装器时也不能继续操作。
 
